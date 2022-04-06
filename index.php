@@ -34,47 +34,49 @@ if (isset($_GET['position'])) {
             <td>
                 <h1>To-do List</h1>
             </td>
-        <tr><td>
-            <!-- Si la position est nulle, c'est un ajout -->
-            <?php if ($position === null) : ?>
-                <h3>Add</h3>
-                <!-- Sinon c'est une édition -->
-            <?php else : ?>
-                <h3>Edit</h3>
-            <?php endif ?>
-            </td></tr>
-            <form action="save.php<?= $url ?>" method="POST">
-                <table>
-                    <tr>
-                        <td></td>
-                        <td><input type="text" name="nom" value="<?= $donnees['nom'] ?? '' ?>"><br></td>
-                        <td><input type="submit" class="btn btn-primary" value="<?php //si ajouter ou modifier
-                                                                                if ($position === null) : ?> Add<?php else : ?>Edit<?php endif ?>">
-                    </tr>
-                </table>
-            </form>
-            <?php
+        <tr>
+            <td>
+                <!-- Si la position est nulle, c'est un ajout -->
+                <?php if ($position === null) : ?>
+                    <h3>Add</h3>
+                    <!-- Sinon c'est une édition -->
+                <?php else : ?>
+                    <h3>Edit</h3>
+                <?php endif ?>
+            </td>
+        </tr>
+        <form action="save.php<?= $url ?>" method="POST">
+            <table>
+                <tr>
+                    <td></td>
+                    <td><input type="text" name="nom" value="<?= $donnees['nom'] ?? '' ?>" required maxlength="50" pattern="[a-zA-Z0-9-_]+"><br></td>
+                    <td><input type="submit" class="btn btn-primary" value="<?php //si ajouter ou modifier
+                                                                            if ($position === null) : ?> Add<?php else : ?>Edit<?php endif ?>">
+                </tr>
+            </table>
+        </form>
+        <?php
 
-            //Liste des non complete
+        //Liste des non complete
 
 
-            echo '<table class="table table-responsive w-50 d-block d-md-table">';
-            echo '<tr><th>Name</th><th>Completed</th><th>Edit</th><th>Remove</th>';
-            if (isset($_SESSION['donnees'])) {
-                //on crée le foreach pour la liste
+        echo '<table class="table table-responsive w-50 d-block d-md-table">';
+        echo '<tr><th>Name</th><th>Completed</th><th>Edit</th><th>Remove</th>';
+        if (isset($_SESSION['donnees'])) {
+            //on crée le foreach pour la liste
 
-                if (empty($_SESSION['donnees'])) echo "La liste est vide";
-                foreach ($_SESSION['donnees'] as $position => $data) {
-                    if ($data['check'] == 0){
+            if (empty($_SESSION['donnees'])) echo "La liste est vide";
+            foreach ($_SESSION['donnees'] as $position => $data) {
+                if ($data['check'] == 0) {
 
 
                     //on donne la liste des données
                     echo '<tr>';
                     //echo '<td>' . $position . ' </td> '
                     if ($data['check'] == 0) {
-                        echo '<td width="50%">' . $data['nom'] . '</td>';
+                        echo '<td width="50%">' . htmlspecialchars($data['nom']) . '</td>';
                     } else {
-                        echo '<td width="50%"><s>' . $data['nom'] . '</s></td>';
+                        echo '<td width="50%"><s>' . htmlspecialchars($data['nom']) . '</s></td>';
                     }
                     //echo '<td>' . $data['check'] . '</td>';
                     echo '&nbsp;';
@@ -93,7 +95,7 @@ if (isset($_GET['position'])) {
                                                                     if ($checked == 'checked') : ?> class="btn btn-success" <?php else : ?> class="btn btn-warning" <?php endif ?>>
                     </td>
                     </form>
-            <?php
+                <?php
                     //Bouton modifier
                     echo '<td><a href="index.php?position=' . $position . '"> <input type="submit" value="Edit" class="btn btn-secondary"> </a></td>';
                     echo '&nbsp;';
@@ -103,27 +105,27 @@ if (isset($_GET['position'])) {
                     echo '</tr>';
                 }
             }
-                echo '</table>';
-            }
-            echo '<H3>Completed</h3>';
-            //Liste des completes
-            echo '<table class="table table-responsive w-50 d-block d-md-table">';
-            echo '<tr><th>Name</th><th>Completed</th><th>Edit</th><th>Remove</th>';
-            if (isset($_SESSION['donnees'])) {
-                //on crée le foreach pour la liste
+            echo '</table>';
+        }
+        echo '<H3>Completed</h3>';
+        //Liste des completes
+        echo '<table class="table table-responsive w-50 d-block d-md-table">';
+        echo '<tr><th>Name</th><th>Completed</th><th>Edit</th><th>Remove</th>';
+        if (isset($_SESSION['donnees'])) {
+            //on crée le foreach pour la liste
 
-                if (empty($_SESSION['donnees'])) echo "La liste est vide";
-                foreach ($_SESSION['donnees'] as $position => $data) {
-                    if ($data['check'] == 1){
+            if (empty($_SESSION['donnees'])) echo "La liste est vide";
+            foreach ($_SESSION['donnees'] as $position => $data) {
+                if ($data['check'] == 1) {
 
 
                     //on donne la liste des données
                     echo '<tr>';
                     //echo '<td>' . $position . ' </td> '
                     if ($data['check'] == 0) {
-                        echo '<td width="50%">' . $data['nom'] . '</td>';
+                        echo '<td width="50%">' . htmlspecialchars($data['nom']) . '</td>';
                     } else {
-                        echo '<td width="50%"><s>' . $data['nom'] . '</s></td>';
+                        echo '<td width="50%"><s>' . htmlspecialchars($data['nom']) . '</s></td>';
                     }
                     //echo '<td>' . $data['check'] . '</td>';
                     echo '&nbsp;';
@@ -142,7 +144,7 @@ if (isset($_GET['position'])) {
                                                                     if ($checked == 'checked') : ?> class="btn btn-success" <?php else : ?> class="btn btn-warning" <?php endif ?>>
                     </td>
                     </form>
-            <?php
+        <?php
                     //Bouton modifier
                     echo '<td><a href="index.php?position=' . $position . '"> <input type="submit" value="Edit" class="btn btn-secondary"> </a></td>';
                     echo '&nbsp;';
@@ -152,11 +154,11 @@ if (isset($_GET['position'])) {
                     echo '</tr>';
                 }
             }
-                echo '</table>';
-            }
+            echo '</table>';
+        }
 
 
-            ?>
+        ?>
 </body>
 
 </html>

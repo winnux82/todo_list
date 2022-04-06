@@ -12,7 +12,7 @@ if (isset($_GET['position'])) {
 $data = $_POST;
 
 if (isset($data['nom']) === false || empty($data['nom'])) {
-    echo 'Le nom est obligatoire';
+    echo 'Le champ ne peut être vide !';
     echo "<a href='index.php'>Retour au formulaire</a>";
     exit;
 
