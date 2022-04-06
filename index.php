@@ -9,7 +9,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="POST"><table><td>Nom:</td>
+    <form action="save.php" method="POST"><table><td>Nom:</td>
     <td><input type="text" name="nom" value=""></td>
     <td><input type="submit" value="Ajouter"></td>
 
