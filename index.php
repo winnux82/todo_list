@@ -1,7 +1,17 @@
 <?php
 //on initialise la session
 session_start();
-
+//on initialise tout 
+$url = '';
+$position = null;
+$donnees = [];
+//si une position existe
+if (isset($_GET['position'])) {
+    $position = $_GET['position'];
+    //on lui définit $donnees avec la position $_GET
+    $donnees = $_SESSION['donnees'][$position];
+    $url = '?position=' . $position;
+}
 ?>
 
 
@@ -18,13 +28,21 @@ session_start();
 </head>
 
 <body>
-    <form action="save.php" method="POST">
-        <table>
-            <td>Nom:</td>
-            <td><input type="text" name="nom" value=""></td>
-            <td><input type="submit" value="Ajouter"></td>
+    <!-- Si la position est nulle, c'est un ajout -->
+    <?php if ($position === null) : ?>
+        <h1>Ajout</h1>
+        <!-- Sinon c'est une édition -->
+    <?php else : ?>
+        <h1>Edition</h1>
+    <?php endif ?>
 
-
+    <form action="save.php<?= $url ?>" method="POST">
+    <table>
+            <tr>
+                <td>Nom : </td>
+                <td><input type="text" name="nom" value="<?= $donnees['nom'] ?? '' ?>"><br></td>
+                <td><input type="submit" value="Ajouter" class="btn btn-primary"></td>
+            </tr>
         </table>
 
     </form>
@@ -35,14 +53,19 @@ session_start();
     //Liste
     echo '<h1>To-do List</h1>';
     echo '<table class="table">';
+    if (isset($_SESSION['donnees'])) {
+        //on crée le foreach pour la liste
 
-    foreach ($_SESSION['donnees'] as $position => $data) {
+        if (empty($_SESSION['donnees'])) echo "Le tableau est vide";
+        foreach ($_SESSION['donnees'] as $position => $data) {
         //on donne la liste des donnes
         echo '<tr>';
         echo '<td>' . $position . ' </td> ';
         echo '<td>' . $data['nom'] . ' </td>';
         echo '</Tr>';
 
+            echo '<td><a href="index.php?position=' . $position . '"> <input type="submit" value="Modifier"> </a></td>';
+            echo '&nbsp;';
 
 
         //Bouton supprimer 
