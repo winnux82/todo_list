@@ -55,23 +55,26 @@ if (isset($_GET['position'])) {
             </form>
             <?php
 
-            //Liste
+            //Liste des non complete
 
 
             echo '<table class="table table-responsive w-50 d-block d-md-table">';
+            echo '<tr><th>Name</th><th>Completed</th><th>Edit</th><th>Remove</th>';
             if (isset($_SESSION['donnees'])) {
                 //on crée le foreach pour la liste
 
                 if (empty($_SESSION['donnees'])) echo "La liste est vide";
                 foreach ($_SESSION['donnees'] as $position => $data) {
+                    if ($data['check'] == 0){
+
 
                     //on donne la liste des données
                     echo '<tr>';
                     //echo '<td>' . $position . ' </td> '
                     if ($data['check'] == 0) {
-                        echo '<td>' . $data['nom'] . '</td>';
+                        echo '<td width="50%">' . $data['nom'] . '</td>';
                     } else {
-                        echo '<td><s>' . $data['nom'] . '</s></td>';
+                        echo '<td width="50%"><s>' . $data['nom'] . '</s></td>';
                     }
                     //echo '<td>' . $data['check'] . '</td>';
                     echo '&nbsp;';
@@ -92,15 +95,67 @@ if (isset($_GET['position'])) {
                     </form>
             <?php
                     //Bouton modifier
-                    echo '<td><a href="index.php?position=' . $position . '"> <input type="submit" value="Modify" class="btn btn-secondary"> </a></td>';
+                    echo '<td><a href="index.php?position=' . $position . '"> <input type="submit" value="Edit" class="btn btn-secondary"> </a></td>';
                     echo '&nbsp;';
 
                     //Bouton supprimer 
                     echo '<td><a onclick="return confirm(\'Voulez vous vraiment supprimer cet élément?\')" href="supprimer.php?position=' . $position . '"> <input type="submit" value="Delete" class="btn btn-danger"> </a></td>';
                     echo '</tr>';
                 }
+            }
                 echo '</table>';
             }
+            echo '<H3>Completed</h3>';
+            //Liste des completes
+            echo '<table class="table table-responsive w-50 d-block d-md-table">';
+            echo '<tr><th>Name</th><th>Completed</th><th>Edit</th><th>Remove</th>';
+            if (isset($_SESSION['donnees'])) {
+                //on crée le foreach pour la liste
+
+                if (empty($_SESSION['donnees'])) echo "La liste est vide";
+                foreach ($_SESSION['donnees'] as $position => $data) {
+                    if ($data['check'] == 1){
+
+
+                    //on donne la liste des données
+                    echo '<tr>';
+                    //echo '<td>' . $position . ' </td> '
+                    if ($data['check'] == 0) {
+                        echo '<td width="50%">' . $data['nom'] . '</td>';
+                    } else {
+                        echo '<td width="50%"><s>' . $data['nom'] . '</s></td>';
+                    }
+                    //echo '<td>' . $data['check'] . '</td>';
+                    echo '&nbsp;';
+                    $url = '?position=' . $position; ?>
+                    <td>
+                        <form action="save.php<?= $url ?>" method="POST">
+                            <input type="hidden" name="nom" value="<?= $data['nom'] ?? '' ?>">
+                            <?php if ($data['check'] == 0) {
+                                //on définit la variable $checked
+                                $checked = 'unchecked';
+                            } else {
+                                $checked = 'checked';
+                            } ?>
+                            <input type="checkbox" name="check" <?= $checked ?> value="1">
+                            <input type="submit" value="Complete" <?php // on modifie la couleur du bouton
+                                                                    if ($checked == 'checked') : ?> class="btn btn-success" <?php else : ?> class="btn btn-warning" <?php endif ?>>
+                    </td>
+                    </form>
+            <?php
+                    //Bouton modifier
+                    echo '<td><a href="index.php?position=' . $position . '"> <input type="submit" value="Edit" class="btn btn-secondary"> </a></td>';
+                    echo '&nbsp;';
+
+                    //Bouton supprimer 
+                    echo '<td><a onclick="return confirm(\'Voulez vous vraiment supprimer cet élément?\')" href="supprimer.php?position=' . $position . '"> <input type="submit" value="Delete" class="btn btn-danger"> </a></td>';
+                    echo '</tr>';
+                }
+            }
+                echo '</table>';
+            }
+
+
             ?>
 </body>
 
