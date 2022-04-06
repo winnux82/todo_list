@@ -49,7 +49,7 @@ if (isset($_GET['position'])) {
             <table>
                 <tr>
                     <td></td>
-                    <td><input type="text" name="nom" value="<?= $donnees['nom'] ?? '' ?>" required maxlength="50" pattern="[a-zA-Z0-9-_]+"><br></td>
+                    <td><input type="text" name="nom" value="<?= $donnees['nom'] ?? '' ?>" required maxlength="50" pattern="[a-zA-Z0-9-_àéè^ôù$]+"><br></td>
                     <td><input type="submit" class="btn btn-primary" value="<?php //si ajouter ou modifier
                                                                             if ($position === null) : ?> Add<?php else : ?>Edit<?php endif ?>">
                 </tr>
@@ -65,7 +65,7 @@ if (isset($_GET['position'])) {
         if (isset($_SESSION['donnees'])) {
             //on crée le foreach pour la liste
 
-            if (empty($_SESSION['donnees'])) echo "La liste est vide";
+            if (empty($_SESSION['donnees'])) echo '<tr><td colspan="4">Empty list</td></tr>';
             foreach ($_SESSION['donnees'] as $position => $data) {
                 if ($data['check'] == 0) {
 
@@ -114,7 +114,7 @@ if (isset($_GET['position'])) {
         if (isset($_SESSION['donnees'])) {
             //on crée le foreach pour la liste
 
-            if (empty($_SESSION['donnees'])) echo "La liste est vide";
+            if (empty($_SESSION['donnees'])) echo '<tr><td colspan="4">Empty list</td></tr>';
             foreach ($_SESSION['donnees'] as $position => $data) {
                 if ($data['check'] == 1) {
 
